@@ -3,31 +3,14 @@ import Footer from "@/components/public/Footer";
 import PortfolioProjectCard from "@/components/projects/PortfolioProjectCard";
 import FeaturedArticle from "@/components/projects/FeaturedArticle";
 import ArticleCard from "@/components/projects/ArticleCard";
+import { prisma } from "@/lib/prisma";
 
-export default function ProjectsPage() {
-  const projects = [
-    {
-      title: "Nexus Engine",
-      description: "Event-driven infrastructure for real-time telemetry processing at scale.",
-      version: "v2.4.0",
-      tags: ["Rust", "gRPC", "Kubernetes"],
-      image: "/projects/nexus_engine_1779567482573.png"
-    },
-    {
-      title: "Quantify Dashboard",
-      description: "Financial analytics platform with high-precision visualization components.",
-      version: null,
-      tags: ["TypeScript", "D3.js", "Next.js"],
-      image: "/projects/quantify_dashboard_1779567506239.png"
-    },
-    {
-      title: "Ghost CLI",
-      description: "Optimized command-line interface for automated deployment pipelines.",
-      version: null,
-      tags: ["Go", "Cobra", "Docker"],
-      image: "/projects/ghost_cli_1779567527835.png"
-    }
-  ];
+export const dynamic = 'force-dynamic';
+
+export default async function ProjectsPage() {
+  const projects = await prisma.project.findMany({
+    orderBy: { createdAt: 'desc' }
+  });
 
   const featuredArticle = {
     title: "The Architecture of Zero-Knowledge Proofs in Distributed Systems",
@@ -36,45 +19,16 @@ export default function ProjectsPage() {
     image: "/projects/featured_article_bg_1779567547923.png"
   };
 
-  const articles = [
-    {
-      title: "Scaling Beyond 1M Concurrent WebSockets",
-      description: "Lessons learned from optimizing the Linux kernel and application layer for high-throughput messaging.",
-      category: "System Design",
-      readTime: "8 min read",
-      author: "Alex Rivera",
-      date: "Oct 12, 2023"
-    },
-    {
-      title: "Garbage Collection in High-Performance Go",
-      description: "A deep dive into the runtime allocator and techniques for minimizing pause times in latency-critical code.",
-      category: "Performance",
-      readTime: "4 min read",
-      author: "Alex Rivera",
-      date: "Sep 28, 2023"
-    },
-    {
-      title: "Infrastructure as Type-Safe Code",
-      description: "Using Pulumi and TypeScript to build reusable, verifiable infrastructure components for multi-cloud environments.",
-      category: "DevOps",
-      readTime: "12 min read",
-      author: "Alex Rivera",
-      date: "Aug 15, 2023"
-    },
-    {
-      title: "Modern Authentication with WebAuthn",
-      description: "Transitioning to a passwordless future using biometric verification and hardware security keys.",
-      category: "Security",
-      readTime: "6 min read",
-      author: "Alex Rivera",
-      date: "Jul 30, 2023"
-    }
-  ];
+  const articles = await prisma.article.findMany({
+    where: { published: true },
+    orderBy: { createdAt: 'desc' },
+    take: 4
+  });
 
   return (
     <>
       <Navbar />
-      <main className="flex-grow max-w-7xl mx-auto w-full px-8 py-16">
+      <main className="flex-grow max-w-7xl mx-auto w-full px-8 py-12 min-h-[calc(100vh-88px)]">
         
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">

@@ -24,10 +24,10 @@ export default function BlogPost() {
   return (
     <>
       <Navbar />
-      <main className="flex-grow w-full pb-24">
+      <main className="flex-grow w-full pb-16 min-h-[calc(100vh-88px)]">
         
         {/* Article Header */}
-        <div className="max-w-4xl mx-auto px-8 pt-16 pb-12">
+        <div className="max-w-4xl mx-auto px-8 pt-12 pb-12">
           <div className="flex items-center gap-3 text-xs font-bold tracking-widest mb-6">
             <span className="bg-gray-800 text-gray-300 px-3 py-1 rounded">ARCHITECTURE</span>
             <span className="text-gray-500">OCTOBER 24, 2023</span>

@@ -8,8 +8,8 @@ export default function ContactPage() {
   return (
     <>
       <Navbar />
-      <main className="flex-grow w-full">
-        <div className="max-w-7xl mx-auto px-8 py-20">
+      <main className="flex-grow w-full min-h-[calc(100vh-88px)] flex flex-col justify-center">
+        <div className="max-w-7xl mx-auto px-8 py-12 w-full">
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 mb-24">
             

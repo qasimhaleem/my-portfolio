@@ -7,7 +7,7 @@ export default function About() {
   return (
     <>
       <Navbar />
-      <main className="flex-grow max-w-7xl mx-auto w-full px-8 py-16">
+      <main className="flex-grow max-w-7xl mx-auto w-full px-8 py-12 min-h-[calc(100vh-88px)] flex flex-col justify-center">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           {/* Left Column */}
           <div className="lg:col-span-5 space-y-8">
