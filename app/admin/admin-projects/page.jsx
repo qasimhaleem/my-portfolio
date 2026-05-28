@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -22,11 +22,9 @@ export default async function AdminProjectsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h2 className="text-3xl font-bold tracking-tight">Projects</h2>
-        <Button asChild>
-          <Link href="/admin/admin-projects/new">
-            <Plus className="mr-2 h-4 w-4" /> Add Project
-          </Link>
-        </Button>
+        <Link href="/admin/admin-projects/new" className={buttonVariants({ variant: "default" })}>
+          <Plus className="mr-2 h-4 w-4" /> Add Project
+        </Link>
       </div>
 
       <div className="rounded-md border">
@@ -53,11 +51,9 @@ export default async function AdminProjectsPage() {
                   <TableCell>{project.version || "N/A"}</TableCell>
                   <TableCell>{new Date(project.createdAt).toLocaleDateString()}</TableCell>
                   <TableCell className="text-right space-x-2">
-                    <Button variant="ghost" size="icon" asChild>
-                      <Link href={`/admin/admin-projects/${project.id}/edit`}>
-                        <Edit className="h-4 w-4" />
-                      </Link>
-                    </Button>
+                    <Link href={`/admin/admin-projects/${project.id}/edit`} className={buttonVariants({ variant: "ghost", size: "icon" })}>
+                      <Edit className="h-4 w-4" />
+                    </Link>
                     <Button variant="ghost" size="icon" className="text-destructive">
                       <Trash2 className="h-4 w-4" />
                     </Button>

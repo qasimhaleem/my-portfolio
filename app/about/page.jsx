@@ -3,7 +3,15 @@ import Navbar from "@/components/public/Navbar";
 import Footer from "@/components/public/Footer";
 import { CheckCircle2, Building2 } from "lucide-react";
 
-export default function About() {
+import { prisma } from "@/lib/prisma";
+
+export const dynamic = 'force-dynamic';
+
+export default async function About() {
+  const experiences = await prisma.experience.findMany({
+    orderBy: { startDate: 'desc' }
+  });
+
   return (
     <>
       <Navbar />
@@ -52,84 +60,27 @@ export default function About() {
           <div className="lg:col-span-7 lg:pl-12">
             <div className="relative border-l border-gray-800 pb-8">
               
-              {/* Experience Item 1 */}
-              <div className="mb-12 ml-8 relative">
-                <span className="absolute -left-[37px] top-1 h-3 w-3 rounded-full bg-indigo-500 ring-4 ring-[#0a0a0a]"></span>
-                
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2 gap-2">
-                  <h3 className="text-2xl font-bold text-white">Principal Solutions Architect</h3>
-                  <span className="inline-block px-3 py-1 text-sm text-gray-400 border border-gray-700 rounded-full bg-[#111]">
-                    2021 — PRESENT
-                  </span>
+              {experiences.map((exp, idx) => (
+                <div key={exp.id} className={`mb-12 ml-8 relative ${idx === experiences.length - 1 ? 'mb-0' : ''}`}>
+                  <span className={`absolute -left-[37px] top-1 h-3 w-3 rounded-full ring-4 ring-[#0a0a0a] ${!exp.endDate ? 'bg-indigo-500' : 'bg-gray-600'}`}></span>
+                  
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2 gap-2">
+                    <h3 className="text-2xl font-bold text-white">{exp.role}</h3>
+                    <span className="inline-block px-3 py-1 text-sm text-gray-400 border border-gray-700 rounded-full bg-[#111]">
+                      {new Date(exp.startDate).getFullYear()} — {exp.endDate ? new Date(exp.endDate).getFullYear() : "PRESENT"}
+                    </span>
+                  </div>
+                  
+                  <div className="flex items-center text-indigo-400 mb-4 font-medium">
+                    <Building2 size={18} className="mr-2" />
+                    {exp.company}
+                  </div>
+                  
+                  <div className="p-6 rounded-xl border border-gray-800 bg-[#111] bg-opacity-50 text-gray-400 text-sm leading-relaxed whitespace-pre-wrap">
+                    {exp.description}
+                  </div>
                 </div>
-                
-                <div className="flex items-center text-indigo-400 mb-4 font-medium">
-                  <Building2 size={18} className="mr-2" />
-                  Global Tech Dynamics
-                </div>
-                
-                <div className="p-6 rounded-xl border border-gray-800 bg-[#111] bg-opacity-50 text-gray-400 text-sm leading-relaxed space-y-4">
-                  <p>
-                    Leading the architectural transformation of cloud-native services serving 50M+ monthly users. Orchestrated the migration from legacy monolith to a globally distributed microservices architecture using Rust and Kubernetes.
-                  </p>
-                  <ul className="space-y-2">
-                    <li className="flex items-start">
-                      <CheckCircle2 size={16} className="text-gray-500 mr-2 mt-0.5 flex-shrink-0" />
-                      <span>Reduced operational costs by 40% through infrastructure optimization.</span>
-                    </li>
-                    <li className="flex items-start">
-                      <CheckCircle2 size={16} className="text-gray-500 mr-2 mt-0.5 flex-shrink-0" />
-                      <span>Established CI/CD protocols reducing deployment time by 75%.</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              {/* Experience Item 2 */}
-              <div className="mb-12 ml-8 relative">
-                <span className="absolute -left-[37px] top-1 h-3 w-3 rounded-full bg-gray-600 ring-4 ring-[#0a0a0a]"></span>
-                
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2 gap-2">
-                  <h3 className="text-2xl font-bold text-white">Senior Engineering Lead</h3>
-                  <span className="inline-block px-3 py-1 text-sm text-gray-400 border border-gray-700 rounded-full bg-[#111]">
-                    2018 — 2021
-                  </span>
-                </div>
-                
-                <div className="flex items-center text-indigo-400 mb-4 font-medium">
-                  <Building2 size={18} className="mr-2" />
-                  Nexus Flow Systems
-                </div>
-                
-                <div className="p-6 rounded-xl border border-gray-800 bg-[#111] bg-opacity-50 text-gray-400 text-sm leading-relaxed">
-                  <p>
-                    Managed a cross-functional team of 15 engineers focusing on real-time data visualization platforms. Implemented a custom component library that standardized UI across 4 major product lines.
-                  </p>
-                </div>
-              </div>
-
-              {/* Experience Item 3 */}
-              <div className="ml-8 relative">
-                <span className="absolute -left-[37px] top-1 h-3 w-3 rounded-full bg-gray-600 ring-4 ring-[#0a0a0a]"></span>
-                
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2 gap-2">
-                  <h3 className="text-2xl font-bold text-white">Full Stack Developer</h3>
-                  <span className="inline-block px-3 py-1 text-sm text-gray-400 border border-gray-700 rounded-full bg-[#111]">
-                    2015 — 2018
-                  </span>
-                </div>
-                
-                <div className="flex items-center text-indigo-400 mb-4 font-medium">
-                  <Building2 size={18} className="mr-2" />
-                  CodeCraft Studios
-                </div>
-                
-                <div className="p-6 rounded-xl border border-gray-800 bg-[#111] bg-opacity-50 text-gray-400 text-sm leading-relaxed">
-                  <p>
-                    Developed high-performance web applications for early-stage startups. Specialized in React ecosystem and Node.js backend integration with focus on sub-second load times.
-                  </p>
-                </div>
-              </div>
+              ))}
 
             </div>
           </div>

@@ -8,6 +8,7 @@ import {
   FileText,
   Settings,
   LogOut,
+  History,
 } from "lucide-react"
 
 import {
@@ -38,6 +39,11 @@ const menuItems = [
     title: "Blog Articles",
     url: "/admin/admin-blog",
     icon: FileText,
+  },
+  {
+    title: "Experience",
+    url: "/admin/admin-experience",
+    icon: History,
   },
   {
     title: "Settings",
